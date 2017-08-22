@@ -57,4 +57,8 @@ public class WordSearchTest {
 	public void wordSearchFindsDownRightWords(){
 		assert wordSearch1.getSolution().contains("SPOCK: (2,1),(3,2),(4,3),(5,4),(6,5)");
 	}
+	@Test
+	public void wordSearchFindsDownLeftWords(){
+		assert wordSearch1.getSolution().contains("UHURA: (4,0),(3,1),(2,2),(1,3),(0,4)");
+	}
 }
