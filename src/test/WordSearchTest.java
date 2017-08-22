@@ -65,4 +65,8 @@ public class WordSearchTest {
 	public void wordSearchFindsUpLeftWords(){
 		assert wordSearch1.getSolution().contains("SULU: (3,3),(2,2),(1,1),(0,0)");
 	}
+	@Test
+	public void wordSearchFindsUpRightWords(){
+		assert wordSearch1.getSolution().contains("ENTERPRISE: (5,14),(6,13),(7,12),(8,11),(9,10),(10,9),(11,8),(12,7),(13,6),(14,5)");
+	}
 }
