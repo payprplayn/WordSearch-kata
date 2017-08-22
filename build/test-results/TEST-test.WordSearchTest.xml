@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test.WordSearchTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2017-08-22T22:23:14" hostname="DESKTOP-MVLC14Q" time="0.028">
+  <properties/>
+  <testcase name="wordSearchFindsDownwardsWords" classname="test.WordSearchTest" time="0.013"/>
+  <testcase name="wordSearchFindsUpRightWords" classname="test.WordSearchTest" time="0.001"/>
+  <testcase name="wordSearchCorrectlyBuildsWordList" classname="test.WordSearchTest" time="0.001"/>
+  <testcase name="wordSearchFindsForwardWords" classname="test.WordSearchTest" time="0.001"/>
+  <testcase name="wordSearchFindsBackwardWords" classname="test.WordSearchTest" time="0.001"/>
+  <testcase name="wordSearchFindsUpwardsWords" classname="test.WordSearchTest" time="0.002"/>
+  <testcase name="wordSearchFindsDownLeftWords" classname="test.WordSearchTest" time="0.002"/>
+  <testcase name="wordSearchFindsDownRightWords" classname="test.WordSearchTest" time="0.001"/>
+  <testcase name="wordSearchCorrectlyDeterminesPuzzleSize" classname="test.WordSearchTest" time="0.001"/>
+  <testcase name="wordSearchFindsUpLeftWords" classname="test.WordSearchTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

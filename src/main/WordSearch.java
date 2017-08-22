@@ -17,7 +17,19 @@ public class WordSearch {
 	char [][] puzzle;
 	private enum Orientation{HORIZONTAL,VERTICAL,ASCENDING,DESCENDING}
 	
-
+	public static void main(String [] args){
+		WordSearch input=null;
+		String target= args.length>0?args[0]:"wordsearch1.txt";
+		try {
+			input=new WordSearch (target);
+		} catch (FileNotFoundException e) {
+			System.err.println("file not found");
+			System.exit(1);
+		}
+		
+		for (String s: input.solution) System.out.println(s);
+		
+	}
 	public WordSearch(String file) throws FileNotFoundException {
 		Scanner input=new Scanner(new File(file));
 		words=input.nextLine().split(",");
