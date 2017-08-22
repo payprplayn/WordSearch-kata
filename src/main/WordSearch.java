@@ -3,16 +3,19 @@ package main;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Scanner;
 
 public class WordSearch {
 
 	private int size;
 	private String[] words;
-	private boolean isSolved;
 	private List<String> solution;
 	char [][] puzzle;
+	private enum Orientation{HORIZONTAL,VERTICAL,ASCENDING,DESCENDING}
 	
 
 	public WordSearch(String file) throws FileNotFoundException {
@@ -37,176 +40,97 @@ public class WordSearch {
 		}
 		
 		input.close();
+		solve();
 		
 	}
 
 	public void solve() {
-		// if it's already solved, don't solve it again.
-		if (isSolved)return;
 		solution=new ArrayList<String>(words.length);
 		
+		//words we haven't found yet
+		List<String> targets=new LinkedList<String>(Arrays.asList(words));
 		
-		//for each word in the list...
-		for (String word : words){
-			StringBuilder output= new StringBuilder(word+":");
-			
-			
-			search:
-			//look through the puzzle...
-			for (int x=0; x<size; x++){
-				for (int y=0; y<size; y++){
+		//look through the puzzle...
+		for (int x=0; x<size; x++){
+			for (int y=0; y<size; y++){
+				ListIterator<String> iter=targets.listIterator();
 				
-					//check for the word horizontally forward
-					if (x+word.length()<=size){
-						boolean found=true;
-						for (int i=0;i<word.length();i++){
-							if (puzzle[x+i][y]!=word.charAt(i)){
-								found=false;
-								break;
-							}
-						}
-						//if you find it, add its location to the solution and stop looking for it.
-						if (found) {
+				//for each word in the list...
+				while (iter.hasNext()){
+					String word=iter.next();
+					//look for the word in each possible orientation
+					for (Orientation o: Orientation.values()){
+						if(search(word, o, false, x,y)){
+							StringBuilder output= new StringBuilder(word+":");
 							for (int i=0;i<word.length();i++){
-								output.append((i==0?" ":",")+"("+(x+i)+","+y+")");
+								output.append((i==0?" ":",")+"("+(updateX(x,i,o))+","+updateY(y,i,o)+")");
 							}
 							solution.add(output.toString());
-							break search;
+							iter.remove();
+						}
+						//backwards and forwards
+						else if (search(word, o, true, x,y)){
+							StringBuilder output= new StringBuilder(word+":");
+							for (int i=word.length()-1;i>=0;i--){
+								output.append((i==word.length()-1?" ":",")+"("+(updateX(x,i,o))+","+updateY(y,i,o)+")");
+							}
+							solution.add(output.toString());
+							iter.remove();
 						}
 					}
 					
-					//check for the word horizontally backward
-					if (x-word.length()>=-1){
-						boolean found=true;
-						for (int i=0;i<word.length();i++){
-							if (puzzle[x-i][y]!=word.charAt(i)){
-								found=false;
-								break;
-							}
-						}
-						//if you find it, add its location to the solution and stop looking for it.
-						if (found) {
-							for (int i=0;i<word.length();i++){
-								output.append((i==0?" ":",")+"("+(x-i)+","+y+")");
-							}
-							solution.add(output.toString());
-							break search;
-						}
-					}
-					//check for the word downward
-					if (y+word.length()<=size){
-						boolean found=true;
-						for (int i=0;i<word.length();i++){
-							if (puzzle[x][y+i]!=word.charAt(i)){
-								found=false;
-								break;
-							}
-						}
-						//if you find it, add its location to the solution and stop looking for it.
-						if (found) {
-							for (int i=0;i<word.length();i++){
-								output.append((i==0?" ":",")+"("+x+","+(y+i)+")");
-							}
-							solution.add(output.toString());
-							break search;
-						}
-					}
-					//check for the word upward
-					if (y-word.length()>=-1){
-						boolean found=true;
-						for (int i=0;i<word.length();i++){
-							if (puzzle[x][y-i]!=word.charAt(i)){
-								found=false;
-								break;
-							}
-						}
-						//if you find it, add its location to the solution and stop looking for it.
-						if (found) {
-							for (int i=0;i<word.length();i++){
-								output.append((i==0?" ":",")+"("+x+","+(y-i)+")");
-							}
-							solution.add(output.toString());
-							break search;
-						}
-					}
-					//check for the word down-right
-					if (y+word.length()<=size&&x+word.length()<=size){
-						boolean found=true;
-						for (int i=0;i<word.length();i++){
-							if (puzzle[x+i][y+i]!=word.charAt(i)){
-								found=false;
-								break;
-							}
-						}
-						//if you find it, add its location to the solution and stop looking for it.
-						if (found) {
-							for (int i=0;i<word.length();i++){
-								output.append((i==0?" ":",")+"("+(x+i)+","+(y+i)+")");
-							}
-							solution.add(output.toString());
-							break search;
-						}
-					}
-					//check for the word down-left
-					if (y+word.length()<=size&&x-word.length()>=-1){
-						boolean found=true;
-						for (int i=0;i<word.length();i++){
-							if (puzzle[x-i][y+i]!=word.charAt(i)){
-								found=false;
-								break;
-							}
-						}
-						//if you find it, add its location to the solution and stop looking for it.
-						if (found) {
-							for (int i=0;i<word.length();i++){
-								output.append((i==0?" ":",")+"("+(x-i)+","+(y+i)+")");
-							}
-							solution.add(output.toString());
-							break search;
-						}
-					}
-					//check for the word up-left
-					if (y-word.length()>=-1&&x-word.length()>=-1){
-						boolean found=true;
-						for (int i=0;i<word.length();i++){
-							if (puzzle[x-i][y-i]!=word.charAt(i)){
-								found=false;
-								break;
-							}
-						}
-						//if you find it, add its location to the solution and stop looking for it.
-						if (found) {
-							for (int i=0;i<word.length();i++){
-								output.append((i==0?" ":",")+"("+(x-i)+","+(y-i)+")");
-							}
-							solution.add(output.toString());
-							break search;
-						}
-					}
-					//check for the word up-right
-					if (y-word.length()>=-1&&x+word.length()<=size){
-						boolean found=true;
-						for (int i=0;i<word.length();i++){
-							if (puzzle[x+i][y-i]!=word.charAt(i)){
-								found=false;
-								break;
-							}
-						}
-						//if you find it, add its location to the solution and stop looking for it.
-						if (found) {
-							for (int i=0;i<word.length();i++){
-								output.append((i==0?" ":",")+"("+(x+i)+","+(y-i)+")");
-							}
-							solution.add(output.toString());
-							break search;
-						}
-					}
 				}
 			}
 			
 		}
 		
 		return;
+	}
+	
+	private boolean search(String word, Orientation orientation, boolean backward, int x, int y){
+		if (backward) word=new StringBuilder(word).reverse().toString();
+		switch (orientation){
+		case HORIZONTAL:
+			if (x+word.length()>size)return false;
+			break;
+
+		case VERTICAL:
+			if (y+word.length()>size)return false;
+			break;
+
+		case ASCENDING:
+			if (x+word.length()>size || y-word.length()<-1) return false;
+			break;
+
+		case DESCENDING:
+			if (x+word.length()>size ||y+word.length()>size) return false;
+
+		}
+		for (int i=0; i<word.length(); i++){
+			if (puzzle[updateX(x,i,orientation)][updateY(y,i,orientation)]!=word.charAt(i)) return false;
+		}
+		return true;
+		
+	}
+	
+	private int updateX(int x, int amount, Orientation orientation){
+		switch (orientation){
+		case ASCENDING:
+		case DESCENDING:
+		case HORIZONTAL:return x+amount;
+		default: return x;
+		}
+			
+	}
+	
+	private int updateY(int y, int amount, Orientation orientation){
+		switch (orientation){
+		case DESCENDING:
+		case VERTICAL:return y+amount;
+		case ASCENDING:return y-amount;
+		default: return y;
+		}
+			
 	}
 
 	public int getSize() {
@@ -220,7 +144,6 @@ public class WordSearch {
 	
 
 	public List<String> getSolution() {
-		if (!isSolved)solve();
 		return solution;
 	}
 

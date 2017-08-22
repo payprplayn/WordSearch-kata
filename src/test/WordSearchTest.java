@@ -20,7 +20,6 @@ public class WordSearchTest {
 		} catch (FileNotFoundException e) {
 			fail("file not found");
 		}
-		wordSearch1.solve();
 	}
 
 	@Test
