@@ -58,6 +58,7 @@ public class WordSearch {
 				//for each word in the list...
 				while (iter.hasNext()){
 					String word=iter.next();
+					
 					//look for the word in each possible orientation
 					for (Orientation o: Orientation.values()){
 						if(search(word, o, false, x,y)){
@@ -68,6 +69,7 @@ public class WordSearch {
 							solution.add(output.toString());
 							iter.remove();
 						}
+						
 						//backwards and forwards
 						else if (search(word, o, true, x,y)){
 							StringBuilder output= new StringBuilder(word+":");
@@ -87,8 +89,9 @@ public class WordSearch {
 		return;
 	}
 	
+	//look for a word in the given orientation and direction starting from (x,y)
 	private boolean search(String word, Orientation orientation, boolean backward, int x, int y){
-		if (backward) word=new StringBuilder(word).reverse().toString();
+		//check that there's enough room for the word.
 		switch (orientation){
 		case HORIZONTAL:
 			if (x+word.length()>size)return false;
@@ -106,13 +109,16 @@ public class WordSearch {
 			if (x+word.length()>size ||y+word.length()>size) return false;
 
 		}
-		for (int i=0; i<word.length(); i++){
-			if (puzzle[updateX(x,i,orientation)][updateY(y,i,orientation)]!=word.charAt(i)) return false;
+		
+		//see if the word is there
+		for (int i=backward?word.length()-1:0; backward?i>=0:i<word.length();i=backward?(i-1):(i+1)){
+			if (puzzle[updateX(x,i,orientation)][updateY(y,i,orientation)]!=word.charAt(backward?word.length()-i-1:i)) return false;
 		}
 		return true;
 		
 	}
 	
+	//update the x coordinate to move amount spaces along the given orientation
 	private int updateX(int x, int amount, Orientation orientation){
 		switch (orientation){
 		case ASCENDING:
@@ -123,6 +129,7 @@ public class WordSearch {
 			
 	}
 	
+	//update the y coordinate to move amount spaces along the given orientation
 	private int updateY(int y, int amount, Orientation orientation){
 		switch (orientation){
 		case DESCENDING:
