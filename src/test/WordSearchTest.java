@@ -53,4 +53,8 @@ public class WordSearchTest {
 	public void wordSearchFindsUpwardsWords(){
 		assert wordSearch1.getSolution().contains("KHAN: (5,9),(5,8),(5,7),(5,6)");
 	}
+	@Test
+	public void wordSearchFindsDownRightWords(){
+		assert wordSearch1.getSolution().contains("SPOCK: (2,1),(3,2),(4,3),(5,4),(6,5)");
+	}
 }
