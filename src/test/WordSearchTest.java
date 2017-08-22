@@ -44,4 +44,9 @@ public class WordSearchTest {
 	public void wordSearchFindsBackwardWords(){
 		assert wordSearch1.getSolution().contains("KIRK: (4,7),(3,7),(2,7),(1,7)");
 	}
+	
+	@Test
+	public void wordSearchFindsDownwardsWords(){
+		assert wordSearch1.getSolution().contains("BONES: (0,6),(0,7),(0,8),(0,9),(0,10)");
+	}
 }
