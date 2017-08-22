@@ -1,7 +1,7 @@
 package test;
 import static org.junit.Assert.*;
 
-import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 
@@ -33,6 +33,11 @@ public class WordSearchTest {
 		assert Arrays.asList(wordSearch1.getWords()).contains("SCOTTY");
 		assert Arrays.asList(wordSearch1.getWords()).contains("BONES");
 		assert Arrays.asList(wordSearch1.getWords()).contains("UHURA");
+	}
+	
+	@Test
+	public void wordSearchFindsForwardWords(){
+		assert wordSearch1.getSolution().contains("SCOTTY: (0,5),(1,5),(2,5),(3,5),(4,5),(5,5)");
 	}
 
 }
