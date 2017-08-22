@@ -49,4 +49,8 @@ public class WordSearchTest {
 	public void wordSearchFindsDownwardsWords(){
 		assert wordSearch1.getSolution().contains("BONES: (0,6),(0,7),(0,8),(0,9),(0,10)");
 	}
+	@Test
+	public void wordSearchFindsUpwardsWords(){
+		assert wordSearch1.getSolution().contains("KHAN: (5,9),(5,8),(5,7),(5,6)");
+	}
 }

@@ -111,6 +111,24 @@ public class WordSearch {
 							break search;
 						}
 					}
+					//check for the word upward
+					if (y-word.length()>=-1){
+						boolean found=true;
+						for (int i=0;i<word.length();i++){
+							if (puzzle[x][y-i]!=word.charAt(i)){
+								found=false;
+								break;
+							}
+						}
+						//if you find it, add its location to the solution and stop looking for it.
+						if (found) {
+							for (int i=0;i<word.length();i++){
+								output.append((i==0?" ":",")+"("+x+","+(y-i)+")");
+							}
+							solution.add(output.toString());
+							break search;
+						}
+					}
 				}
 			}
 			
