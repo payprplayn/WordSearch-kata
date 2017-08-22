@@ -74,6 +74,25 @@ public class WordSearch {
 							break search;
 						}
 					}
+					
+					//check for the word horizontally backward
+					if (x-word.length()>=-1){
+						boolean found=true;
+						for (int i=0;i<word.length();i++){
+							if (puzzle[x-i][y]!=word.charAt(i)){
+								found=false;
+								break;
+							}
+						}
+						//if you find it, add its location to the solution and stop looking for it.
+						if (found) {
+							for (int i=0;i<word.length();i++){
+								output.append((i==0?" ":",")+"("+(x-i)+","+y+")");
+							}
+							solution.add(output.toString());
+							break search;
+						}
+					}
 				}
 			}
 			
